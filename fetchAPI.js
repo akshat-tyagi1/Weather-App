@@ -1,21 +1,20 @@
+import { API_KEY } from "./config.js";
+
 export default async function fetchAPI(city) {
   try {
     const response = await fetch(
-      `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?key=KX7VN9PGJRTGMF7ZUZ6V6YWGG`,
+      `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${encodeURIComponent(city)}?key=${API_KEY}`,
     );
 
     if (!response.ok) {
       throw new Error(`Something happened`);
     }
 
-    const weatherData = response.json();
+    const weatherData = await response.json();
 
     return weatherData;
   } catch (error) {
     console.error("Something went wrong:", error);
+    return null;
   }
 }
-
-// fetchAPI("Greater Noida").then((data) => {
-//   console.log(data);
-// });
